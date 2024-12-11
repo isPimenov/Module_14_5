@@ -129,8 +129,10 @@ async def set_email(message, state):
 @dp.message_handler(state=RegistrationState.age)
 async def set_age(message, state):
     await state.update_data(age=message.text)
-    await add_user(RegistrationState.username, RegistrationState.email, RegistrationState.age)
+    data = await state.get_data()
+    add_user(data['username'], data['email'], int(data['age']))
     await state.finish()
+    await message.answer('Регистрация прошла успешно!')
 
 
 @dp.message_handler()
